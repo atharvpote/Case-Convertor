@@ -7,31 +7,11 @@ const sentenceCase = document.getElementById("sentence-case");
 const saveTextFile = document.getElementById("save-text-file");
 const textarea = document.querySelector("textarea");
 
-upperCase.addEventListener(
-  "click",
-  () => (textarea.value = textarea.value.toUpperCase())
-);
-
-lowerCase.addEventListener(
-  "click",
-  () => (textarea.value = textarea.value.toLowerCase())
-);
-
-properCase.addEventListener("click", () => {
-  textarea.value = textarea.value
-    .toLowerCase()
-    .split(" ")
-    .map((word) => {
-      word = word.split("");
-
-      const firstLetter = word.splice(0, 1).join("").toUpperCase();
-
-      return firstLetter + word.join("");
-    })
-    .join(" ");
-});
-
+upperCase.addEventListener("click", convertToUpperCase);
+lowerCase.addEventListener("click", convertToLowerCase);
+properCase.addEventListener("click", convertToProperCase);
 sentenceCase.addEventListener("click", convertToSentenceCase);
+saveTextFile.addEventListener("click", downloadTextFile);
 
 function firstLetterUpper(sentence) {
   const sentenceCased = sentence
@@ -42,10 +22,6 @@ function firstLetterUpper(sentence) {
 
   return sentenceCased;
 }
-
-saveTextFile.addEventListener("click", () =>
-  download("text.txt", textarea.value)
-);
 
 function convertToSentenceCase() {
   const theString = textarea.value;
@@ -69,5 +45,28 @@ function download(filename, text) {
   document.body.removeChild(element);
 }
 
-// Start file download.
-// download("hello.txt","This is the content of my file :)");
+function convertToUpperCase() {
+  textarea.value = textarea.value.toUpperCase();
+}
+
+function convertToLowerCase() {
+  textarea.value = textarea.value.toLowerCase();
+}
+
+function convertToProperCase() {
+  textarea.value = textarea.value
+    .toLowerCase()
+    .split(" ")
+    .map((word) => {
+      word = word.split("");
+
+      const firstLetter = word.splice(0, 1).join("").toUpperCase();
+
+      return firstLetter + word.join("");
+    })
+    .join(" ");
+}
+
+function downloadTextFile() {
+  download("text.txt", textarea.value);
+}
